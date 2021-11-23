@@ -20,6 +20,7 @@ class _AllProductsState extends State<AllProducts> {
   List<ProductsModel> tempList = [];
   List<ProductsModel> searchedList = [];
   bool searching = false;
+  bool onSearchClick = false;
 
   @override
   void initState() {
@@ -37,20 +38,57 @@ class _AllProductsState extends State<AllProducts> {
         Navigator.pop(context);
       }),
       child: Scaffold(
-          appBar: AppThemeShared.appBar(title: "Products", context: context),
+          appBar: AppThemeShared.appBar(
+              title: "Products",
+              context: context,
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: onSearchClick
+                      ? GestureDetector(
+                          onTap: () {
+                            allProducts.clear();
+                            for (var element in tempList) {
+                              allProducts.add(element);
+                            }
+                            setState(() {
+                              onSearchClick = false;
+                            });
+                          },
+                          child: const Icon(
+                            Icons.close,
+                            color: Colors.white,
+                            size: 26,
+                          ),
+                        )
+                      : GestureDetector(
+                          onTap: () => setState(() {
+                            onSearchClick = true;
+                          }),
+                          child: const Icon(
+                            Icons.search,
+                            color: Colors.white,
+                            size: 26,
+                          ),
+                        ),
+                )
+              ]),
           body: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: AppThemeShared.textFormField(
-                  context: context,
-                  hintText: 'Search Products',
-                  suffixIcon: const Icon(Icons.search, color: Colors.black),
-                  onChanged: (search) => searchProducts(search),
-                  textInputAction: TextInputAction.done,
-                  textCapitalization: TextCapitalization.words,
-                ),
-              ),
+              onSearchClick
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: AppThemeShared.textFormField(
+                          context: context,
+                          hintText: 'Search Products',
+                          suffixIcon:
+                              const Icon(Icons.search, color: Colors.black),
+                          onChanged: (search) => searchProducts(search),
+                          textInputAction: TextInputAction.done,
+                          textCapitalization: TextCapitalization.words,
+                          autoFocus: true),
+                    )
+                  : const Offstage(),
               const SizedBox(height: 8),
               allProducts.isNotEmpty
                   ? Expanded(
