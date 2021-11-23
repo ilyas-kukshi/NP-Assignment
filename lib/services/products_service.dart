@@ -1,5 +1,6 @@
 import 'dart:convert' as convert;
 
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:npassignment/models/product_model.dart';
 
 import 'package:http/http.dart' as http;
@@ -18,7 +19,7 @@ class ProductsService {
         }
       } else {}
     } catch (e) {
-      print(e.toString());
+      Fluttertoast.showToast(msg: e.toString());
     }
     return allProducts;
   }

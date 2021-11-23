@@ -38,7 +38,7 @@ class ProductsModel {
         "title": title,
         "price": price,
         "description": description,
-        "category": categoryValues.reverse[category],
+        "category": category,
         "image": image,
         "rating": rating!.toJson(),
       };
@@ -46,12 +46,7 @@ class ProductsModel {
 
 enum Category { MEN_S_CLOTHING, JEWELERY, ELECTRONICS, WOMEN_S_CLOTHING }
 
-final categoryValues = EnumValues({
-  "electronics": Category.ELECTRONICS,
-  "jewelery": Category.JEWELERY,
-  "men's clothing": Category.MEN_S_CLOTHING,
-  "women's clothing": Category.WOMEN_S_CLOTHING
-});
+
 
 class Rating {
   double? rate;
@@ -73,17 +68,4 @@ class Rating {
       };
 }
 
-class EnumValues<T> {
-  Map<String, T> map;
-  Map<T, String> reverseMap = {};
 
-  EnumValues(this.map);
-
-  Map<T, String> get reverse {
-    // ignore: prefer_conditional_assignment
-    if (reverseMap != null) {
-      reverseMap = map.map((k, v) => MapEntry(v, k));
-    }
-    return reverseMap;
-  }
-}
